@@ -20,8 +20,10 @@ public class QuestionController {
     }
 
 
-    @GetMapping(value = "/question/detail/{id}")
+    @GetMapping( "question/detail/{id}")
     public String detail(Model model, @PathVariable("id") Integer id) {
+        Question question = this.qService.getQuestion(id);
+        model.addAttribute("question", question);
         return "question_detail";
     }
 
