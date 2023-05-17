@@ -25,8 +25,8 @@ public class QuestionController {
 
 
     @GetMapping("/list")
-    public String list(Model model) {
-        model.addAttribute("qList", qService.getList());
+    public String list(Model model, @RequestParam(defaultValue = "1") int page) {
+        model.addAttribute("paging", qService.getList(page-1));
         return "question_list";
     }
 
@@ -39,26 +39,26 @@ public class QuestionController {
     }
 
 
-
     @GetMapping("/create")
-    public String questionCreate(QuestionForm questionForm){
+    public String questionCreate(QuestionForm questionForm) {
         return "question_form";
     }
+
     @PostMapping("/create")
     public String questionCreate(
-            @Valid QuestionForm questionForm, BindingResult result){
+            @Valid QuestionForm questionForm, BindingResult result) {
         /**BindingResult 매개변수는 항상 @Valid 매개변수 바로 뒤에 위치해야 한다. 만약 2개의 매개변수의 위치가 정확하지 않다면
          * @Valid만 적용이 되어 입력값 검증 실패 시 400 오류가 발생한다.
          * */
-        if (result.hasErrors()){
+        if (result.hasErrors()) {
             List<ObjectError> list = result.getAllErrors();
             for (ObjectError e : list) {
-                log.info("error={}",e.getDefaultMessage());
+                log.info("error={}", e.getDefaultMessage());
             }
             return "question_form";
         }
 
-        qService.save(questionForm.getSubject(), questionForm.getContent() );
+        qService.save(questionForm.getSubject(), questionForm.getContent());
 
         return "redirect:/question/list";
     }
