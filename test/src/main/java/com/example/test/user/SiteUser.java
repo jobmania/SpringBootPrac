@@ -7,14 +7,13 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 public class SiteUser {
     // Security에 User라는 객체를 사용하고 있기때문에 가급적 피하는게 좋다1
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long  id;
 
     @Column(unique = true)
     private String username;
@@ -22,5 +21,9 @@ public class SiteUser {
     @Column(unique = true)
     private String email;
 
-
+    public SiteUser(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
 }
