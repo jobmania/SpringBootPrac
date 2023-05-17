@@ -4,16 +4,20 @@ import com.example.test.answer.AnswerService;
 import com.example.test.dto.QuestionForm;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/question")
+@Slf4j
 public class QuestionController {
 
     private final QuestionService qService;
@@ -46,6 +50,10 @@ public class QuestionController {
          * @Valid만 적용이 되어 입력값 검증 실패 시 400 오류가 발생한다.
          * */
         if (result.hasErrors()){
+            List<ObjectError> list = result.getAllErrors();
+            for (ObjectError e : list) {
+                log.info("error={}",e.getDefaultMessage());
+            }
             return "question_form";
         }
 
