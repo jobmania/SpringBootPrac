@@ -6,7 +6,7 @@ public class MainController {
 
     @RequestMapping("/")
     public String root() {
-        return "forward:/question/list";
+        return "redirect:/question/list";
     }
 
 
