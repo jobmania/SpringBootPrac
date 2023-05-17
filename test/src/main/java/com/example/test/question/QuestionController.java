@@ -1,6 +1,7 @@
 package com.example.test.question;
 
 import com.example.test.answer.AnswerService;
+import com.example.test.dto.AnswerForm;
 import com.example.test.dto.QuestionForm;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,7 @@ public class QuestionController {
 
 
     @GetMapping("/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id) {
+    public String detail(Model model, @PathVariable("id") Integer id, AnswerForm answerForm) {
         Question question = this.qService.getQuestion(id);
         model.addAttribute("question", question);
         return "question_detail";
