@@ -20,6 +20,8 @@ public class Answer {
     private String content;
 
     private LocalDateTime createDate;
+    private LocalDateTime modifyDate;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Question question;
