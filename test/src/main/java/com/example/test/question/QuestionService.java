@@ -1,18 +1,16 @@
 package com.example.test.question;
 
+import com.example.test.dto.QuestionForm;
 import com.example.test.exception.DataNotFoundException;
 import com.example.test.user.SiteUser;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -44,6 +42,14 @@ public class QuestionService {
         question.setCreateDate(LocalDateTime.now());
         question.setAuthor(author);
         qRepo.save(question);
+    }
+
+    public Question modifyQuestion(Question question, QuestionForm questionForm) {
+        question.setSubject(questionForm.getSubject());
+        question.setContent(questionForm.getContent());
+        question.setModifyDate(LocalDateTime.now());
+        qRepo.save(question);
+        return question;
     }
 }
 
