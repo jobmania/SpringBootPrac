@@ -40,8 +40,9 @@ public class QuestionController {
 
     @GetMapping("/detail/{id}")
     public String detail(Model model, @PathVariable("id") Integer id, AnswerForm answerForm) {
-        Question question = this.qService.getQuestion(id);
+        Question question = qService.getQuestion(id);
         model.addAttribute("question", question);
+
         return "question_detail";
     }
 
@@ -124,6 +125,16 @@ public class QuestionController {
         qService.deleteQuestion(question);
         return "redirect:/question/list";
 
+    }
+
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/vote/{id}")
+    public String questionVote(Principal principal, @PathVariable("id") Integer id) {
+        Question question = qService.getQuestion(id);
+        SiteUser siteUser = uService.getUser(principal.getName());
+        qService.vote(question, siteUser);
+        return String.format("redirect:/question/detail/%s", id);
     }
 
 }

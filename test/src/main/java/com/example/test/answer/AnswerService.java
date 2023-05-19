@@ -3,6 +3,9 @@ package com.example.test.answer;
 import com.example.test.exception.DataNotFoundException;
 import com.example.test.question.Question;
 import com.example.test.user.SiteUser;
+import com.example.test.voter.AnswerVoter;
+import com.example.test.voter.AnswerVoterRepo;
+import com.example.test.voter.QuestionVoter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,7 @@ import java.util.Optional;
 public class AnswerService {
 
     private final AnswerRepository aRepo;
+    private final AnswerVoterRepo avRepo;
 
     public void create(Question question, String content, SiteUser author){
 
@@ -45,5 +49,19 @@ public class AnswerService {
         aRepo.delete(answer);
 
     }
+
+    public void vote(Answer answer, SiteUser siteUser){
+        Optional<AnswerVoter> findAV = avRepo.findByAnswer_idAndVoter_id(answer.getId(), siteUser.getId());
+        if(findAV.isPresent()){
+            // 한번 좋아요 눌럿다면 다시 누를시 제거!
+            avRepo.delete(findAV.get());
+            return;
+        }
+        AnswerVoter av = new AnswerVoter();
+        av.setAnswer(answer);
+        av.setVoter(siteUser);
+        avRepo.save(av);
+    }
+
 
 }

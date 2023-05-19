@@ -2,11 +2,14 @@ package com.example.test.answer;
 
 import com.example.test.question.Question;
 import com.example.test.user.SiteUser;
+import com.example.test.voter.AnswerVoter;
+import com.example.test.voter.QuestionVoter;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -28,4 +31,7 @@ public class Answer {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private SiteUser author;
+
+    @OneToMany(mappedBy = "answer", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<AnswerVoter> voter;
 }
