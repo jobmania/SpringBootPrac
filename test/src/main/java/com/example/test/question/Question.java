@@ -1,6 +1,7 @@
 package com.example.test.question;
 
 import com.example.test.answer.Answer;
+import com.example.test.user.SiteUser;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,5 +30,8 @@ public class Question {
 
     @OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Answer> answerList;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private SiteUser author;
 
 }

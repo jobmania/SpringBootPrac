@@ -1,6 +1,7 @@
 package com.example.test.question;
 
 import com.example.test.exception.DataNotFoundException;
+import com.example.test.user.SiteUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -36,11 +37,12 @@ public class QuestionService {
     }
 
 
-    public void save(String subject, String content) {
+    public void save(String subject, String content, SiteUser author) {
         Question question = new Question();
         question.setSubject(subject);
         question.setContent(content);
         question.setCreateDate(LocalDateTime.now());
+        question.setAuthor(author);
         qRepo.save(question);
     }
 }

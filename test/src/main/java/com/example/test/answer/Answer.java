@@ -1,6 +1,7 @@
 package com.example.test.answer;
 
 import com.example.test.question.Question;
+import com.example.test.user.SiteUser;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,4 +23,7 @@ public class Answer {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Question question;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private SiteUser author;
 }
