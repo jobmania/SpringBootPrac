@@ -113,4 +113,17 @@ public class QuestionController {
     }
 
 
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/delete/{id}")
+    public String deleteQuestion(@PathVariable("id") Integer id, Principal principal){
+        Question question = qService.getQuestion(id);
+        if (!question.getAuthor().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
+        }
+
+        qService.deleteQuestion(question);
+        return "redirect:/question/list";
+
+    }
+
 }
