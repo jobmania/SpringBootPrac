@@ -39,9 +39,16 @@ public class QuestionController {
 
 
     @GetMapping("/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id, AnswerForm answerForm) {
+    public String detail(Model model, @PathVariable("id") Integer id, AnswerForm answerForm, Principal principal) {
         Question question = qService.getQuestion(id);
         model.addAttribute("question", question);
+
+        if(principal!=null){
+            SiteUser siteUser = uService.getUser(principal.getName());
+            boolean checkVote = qService.checkVote(question, siteUser);
+            model.addAttribute("checkVote", checkVote);
+        }
+
 
         return "question_detail";
     }
