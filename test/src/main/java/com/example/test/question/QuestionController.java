@@ -53,7 +53,9 @@ public class QuestionController {
         return "question_detail";
     }
 
-    @PreAuthorize("isAuthenticated()") // 비로그인 접근시 로그인 화면으로 보냄.
+    @PreAuthorize("isAuthenticated()") // 비로그인 접근시 로그인 화면으로 보냄. 로그인이 된다면 이전 요청을 수행함.
+    // @PreAuthorize는 해당 메서드가 호출되기 이전에 검사한다. 실제로 해당 메서드를 호출할 권한이 있는지를 확인!
+    //    @PreAuthorize("hasRole('ROLE_ADMIN')") 을 통해 역할에 맞게 분배가능.
     @GetMapping("/create")
     public String questionCreate(QuestionForm questionForm) {
         return "question_form";

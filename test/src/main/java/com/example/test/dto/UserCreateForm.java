@@ -1,5 +1,7 @@
 package com.example.test.dto;
 
+import com.example.test.user.UserRole;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,9 +9,14 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-@Getter
-@Setter
+@Data
 public class UserCreateForm {
+
+    private Boolean isAdmin ;
+//    private boolean admin;
+//    private boolean isAdmin;
+
+    private String adminPassword ;
 
     @Size(min = 3, max = 25)
     @NotEmpty(message = "사용자ID는 필수항목입니다.")
@@ -25,5 +32,8 @@ public class UserCreateForm {
     @Email
     private String email;
 
+    public UserCreateForm(){
+
+    }
 
 }

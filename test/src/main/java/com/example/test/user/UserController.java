@@ -2,10 +2,12 @@ package com.example.test.user;
 
 
 import com.example.test.dto.UserCreateForm;
+import com.example.test.validate.UserCreateFormValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,14 +25,24 @@ public class UserController {
 
 
     private final UserService userService;
+    private final UserCreateFormValidator validator;
+    private final String adminPassword = "1234";
 
     @GetMapping("/signup")
-    public String signup(UserCreateForm userCreateForm) {
+    public String signup(Model model) {
+        model.addAttribute("userCreateForm", new UserCreateForm());
         return "signup_form";
     }
 
     @PostMapping("signup")
     public String signup(@Valid UserCreateForm userCreateForm, BindingResult result) {
+
+
+        log.info("isAdmin={}",userCreateForm.getIsAdmin());
+//        log.info("Admin={}",userCreateForm.isAdmin());
+        log.info("AdminPassword={}",userCreateForm.getAdminPassword());
+
+
         if (result.hasErrors()) {
             List<ObjectError> list = result.getAllErrors();
             for (ObjectError e : list) {
@@ -45,9 +57,19 @@ public class UserController {
             return "signup_form";
         }
 
+
+
+        if(userCreateForm.getIsAdmin()){
+            if(!userCreateForm.getAdminPassword().equals(adminPassword)){
+                result.rejectValue("adminPassword", "adminPassword.empty", "관리자 비밀번호를 입력해주세요.");
+                return "signup_form";
+            }
+        }
+
+
+
         try {
-            userService.create(userCreateForm.getUsername(),
-                    userCreateForm.getEmail(), userCreateForm.getPassword1());
+            userService.create(userCreateForm.getUsername(),userCreateForm.getEmail(), userCreateForm.getPassword1(),userCreateForm.getIsAdmin());
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             // BindingResult.reject(오류코드, 오류메시지)는 특정 필드의 오류가 아닌 일반적인 오류를 등록할때 사용한다.

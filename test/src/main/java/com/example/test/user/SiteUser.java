@@ -21,9 +21,20 @@ public class SiteUser {
     @Column(unique = true)
     private String email;
 
+    @Column(columnDefinition = "VARCHAR")
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
+
     public SiteUser(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.userRole = UserRole.USER;
+    }
+    public SiteUser(String username, String password, String email,UserRole userRole) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.userRole = userRole;
     }
 }

@@ -72,9 +72,6 @@
 
 
           <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
-
-             th:classappend="${answer.voter.stream().anyMatch(v -> v.voter.username.equals( #authentication.getPrincipal().getUsername()))} ? ' btn-success' : ''">
-
              th:data-uri="@{|/answer/vote/${answer.id}|}">
             추천
             <span class="badge rounded-pill bg-success" th:text="${#lists.size(answer.voter)}"></span>
