@@ -1,4 +1,4 @@
 # SpringBootPrac
 
-test = SPRING DATA JPA 
-Mybatis = Mybatis
+## test = SPRING DATA JPA 
+## Mybatis = Mybatis
