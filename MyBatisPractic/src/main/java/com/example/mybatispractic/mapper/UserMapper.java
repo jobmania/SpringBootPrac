@@ -1,10 +1,7 @@
 package com.example.mybatispractic.mapper;
 
 import com.example.mybatispractic.domain.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -24,4 +21,7 @@ public interface UserMapper {
 
     @Update("Update user SET name=#{name}, phone=#{phone}, address=#{address} WHERE id=#{id}")
     int updateUser(String id, String name, String phone, String address);
+
+    @Delete("delete from user where id =#{?}")
+    void deleteUser(String id);
 }

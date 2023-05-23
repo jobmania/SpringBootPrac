@@ -10,26 +10,27 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/user")
 public class UserController {
 
 
     //userMapper 선언하고 생성자 주입
     private final UserMapper userMapper;
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     public User getUser(@PathVariable("id") String id) {
         System.out.println(id);
         User user = userMapper.getUser(id);
         return user;
     }
 
-    @GetMapping("/users")
+    @GetMapping("")
     public List<User> getUserList(){
         List<User> userList = userMapper.getUserList();
         return userList;
     }
 
-    @PostMapping("/user")
+    @PostMapping("")
     public void createUser( @RequestParam("id") String id,
                             @RequestParam("name") String name,
                             @RequestParam("phone") String phone,
@@ -39,12 +40,17 @@ public class UserController {
     }
 
 
-    @PutMapping("/user/{id}")
+    @PutMapping("/{id}")
     public void editUser( @PathVariable("id") String id,
                           @RequestParam("name") String name,
                           @RequestParam("phone") String phone,
                           @RequestParam("address") String address  ) {
         userMapper.updateUser(id, name, phone, address);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable("id") String id){
+        userMapper.deleteUser(id);
     }
 
 
